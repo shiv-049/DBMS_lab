@@ -1,0 +1,65 @@
+sudo systmctl start mysql
+sudo mysql
+USE UniversityDB;
+SHOW TABLES;
+
+(Search for A__ in students name)
+SELECT *
+FROM Student
+WHERE student_name LIKE 'A%';
+
+SELECT *
+FROM Student
+WHERE email LIKE '%gmail%';
+
+##AND/OR
+SELECT *
+FROM Student
+WHERE student_name LIKE 'A%'
+AND email LIKE '%gmail%';
+
+SELECT *
+FROM Student
+WHERE student_name LIKE 'A%'
+OR student_name LIKE 'P%';
+
+##MULTIPLICATION
+SELECT course_id,
+       course_name,
+       credits,
+       credits * 25 AS maximum_marks
+FROM Course;
+
+##Arithmetic + logical
+SELECT course_name,
+       credits,
+       credits * 25 AS maximum_marks
+FROM Course
+WHERE credits >= 4;
+
+#DIVISION
+SELECT course_name,
+       credits,
+       100 / credits AS marks_per_credit
+FROM Course;
+
+##INSERT
+INSERT INTO Student
+(student_id, student_name, email, phone, department_id)
+VALUES
+(104, 'Sneha', 'sneha@gmail.com', '9876543213', 2);
+
+##UPDATE
+UPDATE Student
+SET phone = '9999999999'
+WHERE student_id = 104;
+
+##DELETE
+DELETE FROM Student
+WHERE student_id = 104;
+
+##NOT LIKE +AND/OR
+SELECT *
+FROM Student
+WHERE student_name NOT LIKE 'R%'
+AND email LIKE '%gmail%';

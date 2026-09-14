@@ -1,0 +1,50 @@
+sudo systemctl start mysql
+sudo mysql
+USE UniversityDB;
+
+##COUNt
+SELECT COUNT(*) AS total_students
+FROM Student
+WHERE department_id = 1;
+
+##SUM
+SELECT SUM(credits) AS total_credits
+FROM Course;
+
+##AVG
+SELECT AVG(credits) AS average_credits
+FROM Course;
+
+##ROUND
+SELECT ROUND(AVG(credits), 2) AS average_credits
+FROM Course;
+
+##MIN/MAX
+SELECT MIN(credits) AS minimum_credits
+FROM Course;
+
+##UPPER/LOWER/LENGTH
+SELECT UPPER(student_name) AS student_name
+FROM Student;
+
+##CONCAT()
+SELECT CONCAT(student_name, ' - ', email) AS student_details
+FROM Student;
+
+##NOW/DATE/TIME
+SELECT NOW() AS current_date_time;
+SELECT TIME(NOW()) AS current_time;
+SELECT DATE(NOW()) AS current_date;
+
+##COUNT STUDENTS BY DEPARTMENT and GROUP BY clause
+SELECT department_id,
+       COUNT(*) AS total_students
+FROM Student
+GROUP BY department_id;
+
+##HAVING
+SELECT department_id,
+       AVG(credits) AS average_credits
+FROM Course
+GROUP BY department_id
+HAVING AVG(credits) > 3;

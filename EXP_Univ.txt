@@ -1,0 +1,79 @@
+sudo apt update
+sudo apt install mysql-server
+mysql --version
+
+sudo systemctl start mysql 
+sudo systemctl enable mysql
+sudo mysql
+
+SELECT VERSION();
+SHOW DATABASES;
+CREATE DATABASE UniversityDB;
+USE UniversityDB;
+
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    hod_name VARCHAR(100)
+);
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15),
+    department_id INT,
+    FOREIGN KEY (department_id)
+        REFERENCES Department(department_id)
+);
+
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credits INT,
+    department_id INT,
+    FOREIGN KEY (department_id)
+        REFERENCES Department(department_id)
+);
+
+CREATE TABLE Enrollment (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    grade VARCHAR(5),
+    FOREIGN KEY (student_id)
+        REFERENCES Student(student_id),
+    FOREIGN KEY (course_id)
+        REFERENCES Course(course_id)
+);
+
+INSERT INTO Department
+VALUES
+(1, 'Information Technology', 'Dr. Sharma'),
+(2, 'Computer Engineering', 'Dr. Patil'),
+(3, 'Mechanical Engineering', 'Dr. Joshi');
+
+SELECT * FROM Departments;
+
+INSERT INTO Student
+VALUES
+(101, 'Rahul', 'rahul@gmail.com', '9876543210', 1),
+(102, 'Amit', 'amit@gmail.com', '9876543211', 1),
+(103, 'Priya', 'priya@gmail.com', '9876543212', 2);
+
+INSERT INTO Course
+VALUES
+(201, 'Database Management System', 4, 1),
+(202, 'Computer Networks', 3, 1),
+(203, 'Data Structures', 4, 2);
+
+INSERT INTO Enrollment
+VALUES
+(1, 101, 201, '2026-07-01', 'A'),
+(2, 101, 202, '2026-07-01', 'B+'),
+(3, 102, 201, '2026-07-02', 'A+'),
+(4, 103, 203, '2026-07-02', 'A');
+
+ALTER TABLE Student
+ADD address VARCHAR(200);

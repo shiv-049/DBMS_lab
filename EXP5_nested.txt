@@ -1,0 +1,64 @@
+sudo systemctl start mysql
+sudo mysql
+USE UniversityDB;
+SHOW TABLES;
+
+##Nested Query
+SELECT *
+FROM Student
+WHERE department_id IN
+(
+    SELECT department_id
+    FROM Department
+    WHERE department_name = 'Information Technology'
+);
+
+##Courses Offered by IT
+SELECT course_name, credits
+FROM Course
+WHERE department_id =
+(
+    SELECT department_id
+    FROM Department
+    WHERE department_name = 'Information Technology'
+);
+
+##Student Enrolled in DBMS
+SELECT student_name
+FROM Student
+WHERE student_id IN
+(
+    SELECT student_id
+    FROM Enrollment
+    WHERE course_id =
+    (
+        SELECT course_id
+        FROM Course
+        WHERE course_name = 'Database Management System'
+    )
+);
+
+##  use of IN/ not in with subquery
+SELECT student_name
+FROM Student
+WHERE department_id IN
+(
+    SELECT department_id
+    FROM Course
+    WHERE credits = 4
+);
+
+##Use of IN /NOT IN set membership
+SELECT student_name, department_id
+FROM Student
+WHERE department_id NOT IN (1);
+
+## SET comparison ANY/ALL
+SELECT course_name, credits
+FROM Course
+WHERE credits > ANY
+(
+    SELECT credits
+    FROM Course
+    WHERE department_id = 1
+);

@@ -1,1 +1,70 @@
 
+CREATE TABLE Employee (
+    EmpID NUMBER PRIMARY KEY,
+    EmpName VARCHAR2(50),
+    Department VARCHAR2(30),
+    Salary NUMBER(10,2),
+    Bonus NUMBER(10,2)
+);
+
+INSERT INTO Employee VALUES (1, 'Rahul', 'IT', 50000, 0);
+INSERT INTO Employee VALUES (2, 'Aisha', 'HR', 40000, 0);
+INSERT INTO Employee VALUES (3, 'Aman', 'IT', 60000, 0);
+INSERT INTO Employee VALUES (4, 'Sneha', 'Finance', 45000, 0);
+INSERT INTO Employee VALUES (5, 'Zaid', 'HR', 55000, 0);
+INSERT INTO Employee VALUES (6, 'Priya', 'IT', 70000, 0);
+
+COMMIT;
+
+SELECT * FROM Employee;
+
+create or replace procedure calcBonus
+IS 
+  Cursor emp_cursor IS
+    select EmpID, Salary from Employee;
+  Begin
+    for emp_rec in emp_cursor loop
+
+      update employee set bonus = emp_rec.Salary*0.10
+      where EmpID = emp_rec.EmpID;
+
+    END LOOP;
+
+  END;
+/
+
+EXEC calcBonus;
+
+SELECT * FROM Employee;
+
+
+create or replace function GetDeptCount(dept_name Varchar2)
+return NUMBER
+IS
+  dept_count NUMBER;
+  Begin
+    select count(*) into dept_count from employee
+    where Department = dept_name;
+
+    return dept_count;
+  END;
+/
+
+select GetDeptCount('IT') from dual;
+
+create or replace procedure IncDeptSal(dept_name VARCHAR2)
+IS
+  cursor emp_cursor IS
+    select EmpID, Salary from Employee where Department = dept_name;
+  Begin
+    for emp_rec in emp_cursor loop
+
+      update employee set salary = salary + salary*0.10 where EmpID = emp_rec.EmpID;
+
+    end loop;
+  end;
+/
+
+select * from employee;
+exec IncDeptSal('IT');
+select * from employee;

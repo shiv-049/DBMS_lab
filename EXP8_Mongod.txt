@@ -1,0 +1,160 @@
+##ye mongo db me likhna 
+
+##sudo systemctl start mongod
+##mongosh
+
+##ye pl/sql me 
+
+##sql username/password@//localhost:1521/FREEPDB1
+
+
+Replace username and password with your Oracle credentials
+// db.employees.insertMany([
+//   {_id: 1, name: 'Clark', dept: 'Sales' },
+//   {_id: 2, name: 'Dave', dept: 'Accounting' },
+//   {_id: 3, name: 'Ava', dept: 'Sales' }
+// ]);
+
+// db.employees.find({dept: 'Sales'});
+
+db.createCollection("products")
+
+db.products.insertMany([
+   {
+        name: "Laptop",
+        category: "Electronics",
+        price: 55000,
+        quantity: 10,
+        brand: "HP",
+        tags: ["computer", "work"]
+    },
+    {
+        name: "Mobile",
+        category: "Electronics",
+        price: 25000,
+        quantity: 15,
+        brand: "Samsung",
+        tags: ["phone", "android"]
+    },
+    {
+        name: "Mouse",
+        category: "Accessories",
+        price: 500,
+        quantity: 50,
+        brand: "Logitech",
+        tags: ["computer", "accessory"]
+    },
+    {
+        name: "Keyboard",
+        category: "Accessories",
+        price: 1200,
+        quantity: 30,
+        brand: "Dell",
+        tags: ["computer", "accessory"]
+    },
+    {
+        name: "Bottle",
+        category: "Home",
+        price: 300,
+        quantity: 40,
+        brand: "Milton",
+        tags: ["water", "home"]
+    },
+    {
+        name: "Apple Watch",
+        category: "Electronics",
+        price: 35000,
+        quantity: 8,
+        brand: "Apple",
+        tags: ["watch", "smart"]
+    },
+    {
+        name: "Notebook",
+        category: "Stationery",
+        price: 80,
+        quantity: 100,
+        brand: "Classmate",
+        tags: ["paper", "study"]
+    }
+])
+
+
+
+db.products.find()
+
+db.products.find({category:"Electronics"})
+
+db.products.findOne({name: "Laptop"})
+
+db.products.find({price: {$lte: 1000}})
+
+db.products.find({category: {$in: ["Electronics", "Home"]}})
+
+db.products.find({
+  $and: [
+    {category: "Electronics"},
+    {price: {$gt: 30000}}
+  ]
+})
+
+db.products.find({
+  $or: [
+    {category: "Electronics"},
+    {price: {$lt: 500}}
+  ]
+})
+
+db.products.find({tags: "computer"})
+
+db.products.find({
+    tags: {$all: ["computer", "work"]}
+})
+
+db.products.find({
+    tags: {$size: 2}
+})
+
+db.products.find({
+  name: {$regex: "e$"}
+})
+
+db.products.find({
+  name: {$regex: "^A"}
+})
+
+db.products.find({
+  name: {$regex: "top", $options: "i"}
+})
+
+db.products.updateOne(
+  {name: "Laptop"},
+  {$set: {price: 60000}}
+)
+
+db.products.updateMany(
+    {category: "Electronics"},
+    {$inc: {quantity: 5}}
+)
+
+db.products.deleteOne({name: "Bottle"})
+
+db.products.deleteMany({category: "Stationery"})
+
+
+db.products.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      total: {$sum: "$price"}
+    }
+  }
+])
+
+db.products.aggregate([
+    {
+        $group: {
+            _id: "$category",
+            avgPrice: {$avg: "$price"}
+        }
+    }
+])
